@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <EchoMage_Subscribecupon>
+            <version>0.1</version>
+        </EchoMage_Subscribecupon>
+    </modules>
+    <frontend>
+        <routers>
+            <subscribecupons>
+                <use>standard</use>
+                <args>
+                    <module>EchoMage_Subscribecupon</module>
+                    <frontName>subscribecupon</frontName>
+                </args>
+            </subscribecupons>
+        </routers>
+    </frontend>
+    <global>
+        <rewrite>
+            <echomage_subscribecupon_newsletter_subscribercontroller>
+                <from><![CDATA[#^/newsletter/subscriber/#]]></from>
+                <to>/subscribecupon/newsletter_subscriber/</to>
+            </echomage_subscribecupon_newsletter_subscribercontroller>
+        </rewrite>
+        <models>
+            <subscribecupon>
+                <class>EchoMage_Subscribecupon_Model</class>
+            </subscribecupon>
+        </models>
+        <helpers>
+            <subscribecupon>
+                <class>EchoMage_Subscribecupon_Helper</class>
+            </subscribecupon>
+        </helpers>
+        <template>
+            <email>
+                <subscribecupon_email_template module="Subscribecupon">
+                    <label>Newsletter subscriber cupon</label>
+                    <file>echomage_subscribecupon_email.html</file>
+                    <type>html</type>
+                </subscribecupon_email_template>
+            </email>
+        </template>
+    </global>
+    <default>
+        <subscribecupon>
+            <cupon>
+                <cuponvalue>
+                    10
+                </cuponvalue>
+                <emailsubject>
+                    Newsletter subscription
+                </emailsubject>
+                <emailtext>
+                    Thank you for newsletter subscription!
+                    For the subscription we offer a coupon to use in our webshop.
+                    Coupon code: {cupon_code} with total of: {value}
+                    The {store}
+                </emailtext>
+            </cupon>
+        </subscribecupon>
+    </default>
+</config>

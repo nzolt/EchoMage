@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <newsletter translate="label" module="subscribecupon">
+            <groups>
+                <subscribecupon translate="label">
+                    <label>Newsletter Subscriber cupon</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <cuponvalue translate="label">
+                            <label>Cupon value</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cuponvalue>
+                        <cuponprefix translate="label">
+                            <label>Cupon prefix</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cuponprefix>
+                        <cuponvalid translate="label">
+                            <label>Valid for</label>
+                            <note>Valid for days after registartion</note>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cuponvalid>
+                        <emailsubject translate="label">
+                            <label>Email subject</label>
+                            <note>Subject of e-mail sent to customer on newsletter registartion</note>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </emailsubject>
+                        <emailtext translate="label">
+                            <label>E-mail mail to send on newsletter registration</label>
+                            <note>{cupon_code}, {cupon_value} and {store} can be used.</note>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </emailtext>
+                    </fields>
+                </subscribecupon>
+            </groups>
+        </newsletter>
+    </sections>
+</config>

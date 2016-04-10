@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <EchoMage_Subscribecupon>
+      <active>true</active>
+      <codePool>local</codePool>
+    </EchoMage_Subscribecupon>
+  </modules>
+</config>

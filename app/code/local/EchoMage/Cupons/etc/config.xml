@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <EchoMage_Cupons>
+      <version>0.1.0</version>
+    </EchoMage_Cupons>
+  </modules>
+  <frontend>
+    <routers>
+      <cupons>
+        <use>standard</use>
+          <args>
+            <module>EchoMage_Cupons</module>
+            <frontName>cupons</frontName>
+          </args>
+      </cupons>
+    </routers>
+  </frontend>
+  <global>
+	<rewrite>
+		<echomage_cupons_newsletter_subscribercontroller>
+			<from><![CDATA[#^/newsletter/subscriber/#]]></from> <!-- Mage_Newsletter_SubscriberController  -->
+			<to>/cupons/newsletter_subscriber/</to> <!-- EchoMage_Cupons_Newsletter_SubscriberController  -->
+		</echomage_cupons_newsletter_subscribercontroller>
+	</rewrite>
+    <helpers>
+      <cupons>
+        <class>EchoMage_Cupons_Helper</class>
+      </cupons>
+    </helpers>
+	<blocks>
+	  <cupons>
+		<class>EchoMage_Cupons_Block</class>
+	  </cupons>
+	</blocks>
+	<models>
+	  <cupons>
+		<class>EchoMage_Cupons_Model</class>
+		<resourceModel>cupons_mysql4</resourceModel>
+	  </cupons>
+	  <cupons_mysql4>
+		<class>EchoMage_Cupons_Model_Mysql4</class>
+		<entities>		  
+			  <cupontype>
+				<table>echomage_cupon_type</table>
+			  </cupontype>		  
+			  <customercupons>
+				<table>echomage_customer_cupon</table>
+			  </customercupons>
+        </entities>
+	  </cupons_mysql4>
+	</models>
+	<resources>
+	  <cupons_setup>
+		<setup>
+		  <module>EchoMage_Cupons</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </cupons_setup>
+	  <cupons_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </cupons_write>
+	  <cupons_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </cupons_read>
+	</resources>
+    <events>
+	  <checkout_cart_update_items_before>
+        <observers>
+          <checkout_cart_update_items_before_handler>
+            <type>model</type>
+            <class>cupons/observer</class>
+            <method>updateTotal</method>
+            <args></args>
+          </checkout_cart_update_items_before_handler>
+        </observers>
+      </checkout_cart_update_items_before>
+	  <sales_convert_quote_to_order>
+        <observers>
+          <sales_convert_quote_to_order_handler>
+            <type>model</type>
+            <class>cupons/observer</class>
+            <method>updateOrder</method>
+            <args></args>
+          </sales_convert_quote_to_order_handler>
+        </observers>
+      </sales_convert_quote_to_order>
+	  <customer_register_success>
+        <observers>
+          <customer_register_success_handler>
+            <type>model</type>
+            <class>cupons/observer</class>
+            <method>createRegisterCupon</method>
+            <args></args>
+          </customer_register_success_handler>
+        </observers>
+      </customer_register_success>
+	<checkout_type_onepage_save_order_after>
+        <observers>
+          <checkout_type_onepage_save_order_after_cuponvalue_handler>
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>cupons/newordertotalobserver</class> <!-- observers class alias -->
+            <method>saveCuponvalueTotal</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </checkout_type_onepage_save_order_after_cuponvalue_handler>
+	    </observers>
+      </checkout_type_onepage_save_order_after>		
+	<checkout_type_multishipping_create_orders_single> <!-- identifier of the event we want to catch -->
+        <observers>		
+          <checkout_type_multishipping_create_orders_single_cuponvalue_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>cupons/newordertotalobserver</class> <!-- observers class alias -->
+            <method>saveCuponvalueTotalForMultishipping</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </checkout_type_multishipping_create_orders_single_cuponvalue_handler>		
+        </observers>
+      </checkout_type_multishipping_create_orders_single>
+    </events>	
+	 <sales>
+		<quote>
+			<totals>				
+	            <cuponvalue_total>
+					<class>cupons/quote_address_total_cuponvalue</class>
+					<after>subtotal,freeshipping,tax_subtotal,shipping</after>
+					<before>grand_total</before>
+				</cuponvalue_total> 
+			</totals>
+		</quote>
+            <order_invoice>
+                <totals>				
+	            <cuponvalue_total>
+					<class>cupons/order_invoice_total_cuponvalue</class>
+					<after>subtotal,freeshipping,tax_subtotal,shipping</after>
+					<before>grand_total</before>
+				</cuponvalue_total> 
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>				
+	            <cuponvalue_total>
+					<class>cupons/order_creditmemo_total_cuponvalue</class>
+					<after>subtotal,freeshipping,tax_subtotal,shipping</after>
+					<before>grand_total</before>
+				</cuponvalue_total> 
+                </totals>
+            </order_creditmemo>
+	</sales>
+  </global>
+  <admin>
+	<routers>
+	  <cupons>
+	    <use>admin</use>
+		<args>
+		  <module>EchoMage_Cupons</module>
+		  <frontName>admin_cupons</frontName>
+		</args>
+	  </cupons>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <cupons module="cupons">
+		<title>Cupons</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <cuponsbackend module="cupons">
+			<title>Customer cupons</title>
+			<sort_order>0</sort_order>
+			<action>admin_cupons/adminhtml_cuponsbackend</action>
+		  </cuponsbackend>
+		  <cupontype module="cupons">
+		    <title>Manage Cupontype</title>
+			<sort_order>0</sort_order>
+			<action>admin_cupons/adminhtml_cupontype</action>
+		  </cupontype>
+		  <customercupons module="cupons">
+		    <title>Manage Customercupons</title>
+			<sort_order>10</sort_order>
+			<action>admin_cupons/adminhtml_customercupons</action>
+		  </customercupons>
+		</children>
+	  </cupons>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<cupons translate="title" module="cupons">
+			  <title>Cupons</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <cuponsbackend translate="title">
+			<title>Customer cupons</title>
+		  </cuponsbackend>
+		  <cupontype translate="title">
+			<title>Manage Cupontype</title>
+			<sort_order>0</sort_order>
+		  </cupontype>
+		  <customercupons translate="title">
+			<title>Manage Customercupons</title>
+			<sort_order>10</sort_order>
+		  </customercupons>
+			  </children>
+			</cupons>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<cupons>
+		  <file>cupons.xml</file>
+		</cupons>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 
